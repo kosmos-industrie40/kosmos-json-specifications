@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Payload: kosmos/bc/<contractId>",
+  "description": "definition of the payload for the topic kosmos/bc/<contractId>",
+  "properties": {
+    "body": {
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "The service, which send this message"
+        },
+        "date": {
+          "type": "integer",
+          "description": "current time stamp in unix time format (based on seconds"
+        },
+        "calculation": {
+          "type": "object",
+          "$ref": "#/definitions/Calculation",
+          "description": "defines the time frame for the calculation"
+        },
+        "result": {
+          "type": "object",
+          "$ref": "#/definitions/Result",
+          "description": "the result of the calculation"
+        }
+      },
+      "required": [
+        "from",
+        "date",
+        "calculation",
+        "result"
+      ]
+    },
+    "signature": {
+			"type": "object",
+			"description": "base64 encoded cryptographic signature about all other fields in the message",
+			"required": ["signature", "meta"],
+			"additionalProperties": false,
+			"properties": {
+				"signature": {
+					"type": "string",
+					"description": "contains the signature of this datum"
+				},
+				"meta": {
+					"type": "object",
+					"additionalProperties": false,
+					"description": "contains meta data of to use with the signature",
+					"required": ["date", "algorithm", "serialNumber"],
+					"properties": {
+						"date": {
+							"description": "contains the date, when the message is signed",
+							"type": "string",
+							"format": "date-time"
+						},
+						"algorithm": {
+							"type": "string",
+							"description": "is the used cryptographic algorithm, which is used to create the signature"
+						},
+						"serialNumber": {
+							"type": "string",
+							"description": "is the serial number of the signing certificate",
+							"pattern": "^([0-9A-Fa-f]{2}-)+[0-9A-Fa-f]{2}$",
+							"examples": [
+								"72-4E-15-2D-3F-68-A9-9C-4F-3A-80-82-A2-9D-D2-FD-56-DA-7D-B1"
+							]
+						}
+					}
+				}
+			}
+		}
+  },
+  "required": [
+    "body"
+  ],
+  "definitions": {
+    "Calculation": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "description": "timestamp on which the current calculation has started in millisecond and unix time format",
+          "type": "integer"
+        },
+        "end": {
+          "description": "timestamp on which the current calculation has stopped in millisecond and unix time format",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ]
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "defines the used currency"
+        },
+        "clear": {
+          "type": "number",
+          "description": "total value without tax"
+        },
+        "tax": {
+          "type": "number",
+          "description": "total tax"
+        },
+        "parts": {
+          "type": "array",
+          "description": "parts of the result split by the result of each machine",
+          "items": {
+            "type": "object",
+            "properties": {
+              "machine": {
+                "type": "string",
+                "description": "defines the machine"
+              },
+              "results": {
+                "type": "object",
+                "description": "the result of the calculation of this machine",
+                "definitions": {
+                  "clear": {
+                    "type": "number",
+                    "description": "the result of the calculation without tax"
+                  },
+                  "tax": {
+                    "type": "number",
+                    "description": "the tax of this machine"
+                  }
+                },
+                "required": [
+                  "clear",
+                  "tax"
+                ]
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

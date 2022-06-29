@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Add Prod Data Payload: POST /api/machine/<assetId>/prodData",
+  "description":"Definition of the payload for adding prod data API request: POST /api/machine/<assetId>/prodData",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    },
+    "prodMinutes":{
+      "type":"number",
+      "description":"Defines the number of minutes the machine has been working."
+    },
+    "prodPieces":{
+      "type":"number",
+      "description":"Defines the number of produced pieces."
+    },
+    "toolChanges":{
+      "type":"number",
+      "description":"Defines the number of times a tool has been changed."
+    },
+    "travelDistance":{
+      "type":"number",
+      "description":"Defines the distance the machine has travelled."
+    },
+    "directionChange":{
+      "type":"number",
+      "description":"Defines the number of times the machine has changed direction."
+    },
+    "materialType":{
+      "type":"string",
+      "enum":[
+        "aluminum",
+        "titanium",
+        "steel"
+      ],
+      "description":"Defines the material type."
+    }
+  },
+  "required":[
+    "customerId",
+    "prodMinutes",
+    "prodPieces",
+    "toolChanges",
+    "travelDistance",
+    "directionChange",
+    "materialType"
+  ]
+}

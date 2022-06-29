@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Get Machine By Name Payload: GET /api/machine/byName/<machineName>",
+  "description":"Definition of the payload for getting machine by name API request: GET /api/machine/byName/<machineName>",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    }
+  },
+  "required":[
+    "customerId"
+  ]
+}

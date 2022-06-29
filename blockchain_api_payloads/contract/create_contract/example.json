@@ -1,0 +1,12 @@
+{
+  "contractName": "Contract",
+  "manufacturerId": "Manufacturer Company",
+  "customerId": "datarella",
+  "machineId": "00a26f35-81a1-49dc-9871-58799928a0a8",
+  "tariffId": "12a26f35-81a1-49dc-9871-58799928a0a8",
+  "expendables": true,
+  "maintenance": true,
+  "beginDate": "2018-11-13T20:20:39+00:00",
+  "endDate": "2018-11-13T20:20:39+00:00",
+  "billingInterval": "WEEKLY"
+}

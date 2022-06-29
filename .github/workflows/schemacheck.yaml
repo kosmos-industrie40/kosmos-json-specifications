@@ -1,0 +1,80 @@
+name: schemacheck
+on: push
+
+jobs:
+  schemacheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./mqtt_payloads
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          pip install jsonschema
+      - name: schemacheck analysis
+        run: |
+          find analysis -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  analysis/formal.json
+            invalid () {
+            ! jsonschema -i $1 analysis/formal.json
+            }
+           invalid failed.json
+           invalid analysis/fail-example-text.json
+           invalid analysis/fail-example.json
+      - name: schemacheck sensor
+        run: |
+          for x in `ls data/*example*`; do
+          jsonschema -i $x data/formal.json
+          done
+          invalid () {
+          ! jsonschema -i $1 data/formal.json
+          }
+          invalid failed.json
+      - name: schemacheck ml
+        run: |
+          find ml-trigger -name '*example*.json' -not -name 'fail*' -print0 | xargs -0L1  -i  jsonschema -i {}  ml-trigger/formal.json
+           invalid () {
+           ! jsonschema -i $1 ml-trigger/formal.json
+           }
+           invalid ml-trigger/fail-example.json
+      - name: schemacheck blockchain
+        run: |
+          find blockchain -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  blockchain/formal.json
+           invalid () {
+           ! jsonschema -i $1 blockchain/formal.json
+           }
+           invalid failed.json
+      - name: schemacheck contract-creation
+        run: |
+          set -x
+          for x in `ls contract-creation/*example*.json`; do
+          jsonschema -i $x contract-creation/formal.json
+          done
+          invalid () {
+          ! jsonschema -i $1 contract-creation/formal.json
+          }
+          invalid failed.json
+      - name: schemacheck contract-deletion
+        run: |
+          find contract-removal -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  contract-removal/formal.json
+           invalid () {
+           ! jsonschema -i $1 contract-removal/formal.json
+           }
+           invalid failed.json
+      - name: schemacheck contract-all
+        run: |
+          jsonschema -i contract-all/example.json contract-all/formal.json
+      - name: schemacheck status
+        run: |
+          set -x
+          for x in `ls status/*example*`; do
+          jsonschema -i $x status/formal.json
+          done

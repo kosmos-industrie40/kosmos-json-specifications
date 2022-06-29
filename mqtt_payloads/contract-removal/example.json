@@ -1,0 +1,7 @@
+{
+  "$schema": "file:contractRemove-formal.json",
+  "body": {
+    "contract": "customContract",
+    "blame": "jan"
+  }
+}

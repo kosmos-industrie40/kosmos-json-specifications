@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Create Contract Payload: POST /api/contract",
+  "description":"Definition of the payload for creating contract API request: POST /api/contract",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    },
+    "contractName":{
+      "type":"string",
+      "description":"Defines the human-friendly contract name."
+    },
+    "manufacturerId":{
+      "type":"string",
+      "description":"Defines the manufacturer (lessor)."
+    },
+    "machineId":{
+      "type":"string",
+      "format": "uuid",
+      "description":"Defines the foreign key of the leased machine."
+    },
+    "tariffId":{
+      "type":"string",
+      "format": "uuid",
+      "description":"Defines the foreign key of the tariff which will be used."
+    },
+    "expendables":{
+      "type":"boolean",
+      "description":"Defines whether expendables are included in the contract."
+    },
+    "maintenance":{
+      "type":"boolean",
+      "description":"Defines whether maintenance is included in the contract."
+    },
+    "beginDate":{
+      "type":"string",
+      "format": "date-time",
+      "description":"Defines the begin date of the contract as a string value in ISO"
+    },
+    "endDate":{
+      "type":"string",
+      "format": "date-time",
+      "description":"Defines the end date of the contract as a string value in ISO format."
+    },
+    "billingInterval":{
+      "type":"string",
+      "enum":[
+        "WEEKLY",
+        "MONTHLY"
+      ],
+      "description":"Defines the billing interval."
+    }
+  },
+  "required":[
+    "customerId",
+    "contractName",
+    "manufacturerId",
+    "machineId",
+    "tariffId",
+    "expendables",
+    "maintenance",
+    "beginDate",
+    "endDate",
+    "billingInterval"
+  ]
+}

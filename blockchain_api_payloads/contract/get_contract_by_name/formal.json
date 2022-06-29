@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Get Contract By Name Payload: GET /api/contract/getByContractName/<contractName>",
+  "description":"Definition of the payload for getting contract by name API request GET: /api/contract/getByContractName/<contractName>",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    }
+  },
+  "required":[
+    "customerId"
+  ]
+}

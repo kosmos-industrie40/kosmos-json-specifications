@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Update Tariff Payload: PUT /api/tariff",
+  "description":"Definition of the payload for updating tariff API request: PUT /api/tariff<asset_id> ",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    },
+    "tariffName":{
+      "type":"string",
+      "description":"Defines the human-friendly tariff name."
+    },
+    "basisCost":{
+      "type":"number",
+      "description":"Defines the basic cost for the tariff."
+    },
+    "costMinute":{
+      "type":"number",
+      "description":"Defines the cost fee per minute."
+    },
+    "costPiece":{
+      "allOf":[
+        {
+          "$ref":"#/definitions/CostProducedPieces"
+        },
+        {
+          "description":"Defines the cost fee per produced piece."
+        }
+      ]
+    },
+    "costMovingDistance":{
+      "type":"number",
+      "description":"Defines the cost fee per distance travelled (km)."
+    },
+    "costToolChanges":{
+      "type":"number",
+      "description":"Defines the cost fee per tool change."
+    },
+    "costDirectionChanges":{
+      "type":"number",
+      "description":"Defines the cost fee per direction changes (STK)."
+    },
+    "costCrash":{
+      "type":"number",
+      "description":"Defines the cost fee per crash."
+    },
+    "costExpendables":{
+      "type":"number",
+      "description":"Defines the cost for the expendables."
+    },
+    "costMaintenance":{
+      "type":"number",
+      "description":"Defines the cost for maintenance."
+    },
+    "costMaterial":{
+      "allOf":[
+        {
+          "$ref":"#/definitions/MaterialCost"
+        },
+        {
+          "description":"Defines the cost for each of the materials."
+        }
+      ]
+    }
+  },
+  "required":[
+    "customerId"
+  ],
+  "definitions": {
+    "CostProducedPieces":{
+      "type":"object",
+      "properties":{
+        "stepSize":{
+          "type":"number",
+          "description":"Defines the step size."
+        },
+        "costFactor":{
+          "type":"number",
+          "description":"Defines the cost factor."
+        }
+      },
+      "required":[
+        "stepSize",
+        "costFactor"
+      ]
+    },
+    "MaterialCost":{
+      "type":"object",
+      "properties":{
+        "aluminum":{
+          "type":"number",
+          "description":"Defines the cost for aluminum."
+        },
+        "titanium":{
+          "type":"number",
+          "description":"Defines the cost for titanium."
+        },
+        "steel":{
+          "type":"number",
+          "description":"Defines the cost for steel."
+        }
+      },
+      "required":[
+        "aluminum",
+        "titanium",
+        "steel"
+      ]
+    }
+  }
+}

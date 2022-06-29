@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Payload: kosmos/analysis/<name>/<version>",
+  "description": "definition of the payload for the topic kosmos/analysis/<name>/<version>",
+  "properties": {
+    "body": {
+      "type": "object",
+      "properties": {
+        "contract": {
+          "type": "string",
+          "description": "defines the contract on which the result will be made"
+        },
+        "type": {
+          "type": "string",
+          "description": "defines the type of the payload",
+          "enum": [
+            "sensor_update",
+            "analyse_result"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "description": "is the transmitted data",
+          "oneOf": [
+            {
+              "$ref": "file:analysis/formal.json"
+            },
+            {
+              "$ref": "file:data/formal.json"
+            }
+          ]
+        },
+        "machine": {
+          "type": "string",
+          "description": "representing the submitted machine"
+        },
+        "sensor": {
+          "type": "string",
+          "description": "representing the submitted machine"
+        }
+      },
+      "required": [
+        "contract",
+        "type",
+        "payload",
+        "machine",
+        "sensor"
+      ],
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "sensor_update"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "file:data/formal.json"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "payload": {
+            "$ref": "file:analysis/formal.json"
+          }
+        }
+      }
+    },
+    "signature": {
+			"type": "object",
+			"description": "base64 encoded cryptographic signature about all other fields in the message",
+			"required": ["signature", "meta"],
+			"additionalProperties": false,
+			"properties": {
+				"signature": {
+					"type": "string",
+					"description": "contains the signature of this datum"
+				},
+				"meta": {
+					"type": "object",
+					"additionalProperties": false,
+					"description": "contains meta data of to use with the signature",
+					"required": ["date", "algorithm", "serialNumber"],
+					"properties": {
+						"date": {
+							"description": "contains the date, when the message is signed",
+							"type": "string",
+							"format": "date-time"
+						},
+						"algorithm": {
+							"type": "string",
+							"description": "is the used cryptographic algorithm, which is used to create the signature"
+						},
+						"serialNumber": {
+							"type": "string",
+							"description": "is the serial number of the signing certificate",
+							"pattern": "^([0-9A-Fa-f]{2}-)+[0-9A-Fa-f]{2}$",
+							"examples": [
+								"72-4E-15-2D-3F-68-A9-9C-4F-3A-80-82-A2-9D-D2-FD-56-DA-7D-B1"
+							]
+						}
+					}
+				}
+			}
+		}
+  },
+  "required": ["body"]
+}

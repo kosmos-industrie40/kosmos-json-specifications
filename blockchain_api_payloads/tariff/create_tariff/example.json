@@ -1,0 +1,21 @@
+{
+  "customerId": "datarella",
+  "tariffName": "Tariff",
+  "basisCost": 0,
+  "costMinute": 0,
+  "costPiece": {
+    "stepSize": 1,
+    "costFactor": 1
+  },
+  "costMovingDistance": 0,
+  "costToolChanges": 0,
+  "costDirectionChanges": 0,
+  "costCrash": 0,
+  "costExpendables": 0,
+  "costMaintenance": 0,
+  "costMaterial": {
+    "aluminum": 3,
+    "titanium": 4,
+    "steel": 5
+  }
+}

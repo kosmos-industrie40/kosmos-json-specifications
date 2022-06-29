@@ -1,0 +1,109 @@
+---
+stages:
+  - lint
+  - schemacheck
+
+.common:
+  tags:
+    - &RUNNER shared
+
+image: "${HARBOR_PROD}/cache/library/python:3.8"
+before_script:
+  - pip install jsonschema
+  - cd mqtt_payloads
+
+analysis:
+  tags:
+    - *RUNNER
+  stage: schemacheck
+  script:
+    - find analysis -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  analysis/formal.json
+    - |
+      invalid () {
+      ! jsonschema -i $1 analysis/formal.json
+      }
+    - invalid failed.json
+    - invalid analysis/fail-example-text.json
+    - invalid analysis/fail-example.json
+
+sensor:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - |
+      for x in `ls data/*example*`; do
+      jsonschema -i $x data/formal.json
+      done
+      invalid () {
+      ! jsonschema -i $1 data/formal.json
+      }
+      invalid failed.json
+
+ml:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - find ml-trigger -name '*example*.json' -not -name 'fail*' -print0 | xargs -0L1  -i  jsonschema -i {}  ml-trigger/formal.json
+    - |
+      invalid () {
+      ! jsonschema -i $1 ml-trigger/formal.json
+      }
+      invalid ml-trigger/fail-example.json
+
+blockchain:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - find blockchain -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  blockchain/formal.json
+    - |
+      invalid () {
+      ! jsonschema -i $1 blockchain/formal.json
+      }
+      invalid failed.json
+
+contract-creation:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - |
+      set -x
+      for x in `ls contract-creation/*example*.json`; do
+      jsonschema -i $x contract-creation/formal.json
+      done
+      invalid () {
+      ! jsonschema -i $1 contract-creation/formal.json
+      }
+      invalid failed.json
+
+contract-deletion:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - find contract-removal -name example*.json -print0 | xargs -0L1  -i  jsonschema -i {}  contract-removal/formal.json
+    - |
+      invalid () {
+      ! jsonschema -i $1 contract-removal/formal.json
+      }
+      invalid failed.json
+
+contract-all:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script: jsonschema -i contract-all/example.json contract-all/formal.json
+
+status:
+  stage: schemacheck
+  tags:
+    - *RUNNER
+  script:
+    - |
+      set -x
+      for x in `ls status/*example*`; do
+      jsonschema -i $x status/formal.json
+      done

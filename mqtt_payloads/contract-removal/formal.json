@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "properties": {
+    "body": {
+      "type": "object",
+      "properties": {
+        "contract": {
+          "type": "string",
+          "description": "defines the contract which will be removed of the systems"
+        },
+        "blame": {
+          "type": "string",
+          "description": "defines who wants to delete the contract"
+        }
+      },
+      "required": [
+        "contract",
+        "blame"
+      ]
+    },
+    "signature": {
+			"type": "object",
+			"description": "base64 encoded cryptographic signature about all other fields in the message",
+			"required": ["signature", "meta"],
+			"additionalProperties": false,
+			"properties": {
+				"signature": {
+					"type": "string",
+					"description": "contains the signature of this datum"
+				},
+				"meta": {
+					"type": "object",
+					"additionalProperties": false,
+					"description": "contains meta data of to use with the signature",
+					"required": ["date", "algorithm", "serialNumber"],
+					"properties": {
+						"date": {
+							"description": "contains the date, when the message is signed",
+							"type": "string",
+							"format": "date-time"
+						},
+						"algorithm": {
+							"type": "string",
+							"description": "is the used cryptographic algorithm, which is used to create the signature"
+						},
+						"serialNumber": {
+							"type": "string",
+							"description": "is the serial number of the signing certificate",
+							"pattern": "^([0-9A-Fa-f]{2}-)+[0-9A-Fa-f]{2}$",
+							"examples": [
+								"72-4E-15-2D-3F-68-A9-9C-4F-3A-80-82-A2-9D-D2-FD-56-DA-7D-B1"
+							]
+						}
+					}
+				}
+			}
+		}
+  },
+  "required": [
+    "body"
+  ]
+}

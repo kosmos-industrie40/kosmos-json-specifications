@@ -1,0 +1,33 @@
+{
+  "$schema": "file:formal.json",
+  "body": {
+    "from": "blockchain-client",
+    "date": 1585758170,
+    "calculation": {
+      "start": 1583020800000,
+      "end": 1585699199000
+    },
+    "result": {
+      "currency": "euro",
+      "clear": 1088.99,
+      "tax": 55.77,
+      "parts": [
+        {
+          "machine": "machine1",
+          "results": {
+            "clear": 1088.99,
+            "tax": 55.77
+          }
+        }
+      ]
+    }
+  },
+  "signature": {
+    "signature": "TestSignature",
+    "meta": {
+      "algorithm": "TestAlgo",
+      "date": "2020-08-15T15:47:55.789Z",
+      "serialNumber": "72-4E-15-2D-3F-68-A9-9C-4F-3A-80-82-A2-9D-D2-FD-56-DA-7D-B1"
+    }
+  }
+}

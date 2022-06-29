@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Create Machine Payload: POST /api/machine",
+  "description":"Definition of the payload for creating machine API request: POST /api/machine ",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    },
+    "machineName":{
+      "type":"string",
+      "description":"Defines the human-friendly machine name."
+    },
+    "machineDesc":{
+      "type":"string",
+      "description":"Defines short description for the machine."
+    },
+    "manufacturerId":{
+      "type":"string",
+      "description":"Defines the manufacturer that produced the machine."
+    }
+  },
+  "required":[
+    "customerId",
+    "machineName",
+    "machineDesc",
+    "manufacturerId"
+  ]
+}

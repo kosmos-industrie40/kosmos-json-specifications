@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title":"Get Crash Payload: GET /api/machine/<assetId>/crash",
+  "description":"Definition of the payload for getting crashes for particular machine API request: GET /api/machine/<assetId>/crash",
+  "properties":{
+    "customerId":{
+      "type":"string",
+      "description":"Defines the username for authentication purposes."
+    }
+  },
+  "required":[
+    "customerId"
+  ]
+}
